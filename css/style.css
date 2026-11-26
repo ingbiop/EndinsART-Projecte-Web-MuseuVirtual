@@ -3048,8 +3048,8 @@ body.sense-scroll {
   object-fit: cover;
   pointer-events: none;
   transform: scale(var(--escala, 1));
-  opacity: var(--opacitat, 1);
-  filter: blur(var(--desenfocament, 0));
+  -webkit-mask-image: var(--mascara, none);
+  mask-image: var(--mascara, none);
 }
 
 /* Puzzle */
@@ -3401,7 +3401,7 @@ body.sense-scroll {
 .vaixell__fons {
   position: absolute;
   inset: 0;
-  background: url('https://lisagh.github.io/ux/img/moutain.png') no-repeat left bottom / 170% auto;
+  background: url('../assets/imgs/quadres/vaixell-fons.svg') no-repeat center bottom / cover;
 }
 
 .vaixell__barca {

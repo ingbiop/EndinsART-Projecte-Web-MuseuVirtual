@@ -44,13 +44,13 @@
   {
     "id": "expo1-4",
     "title": "El Caminant sobre el Mar de Boira",
-    "artist": "Caspar David Friedrich i Álvaro Montoro",
-    "codepenUrl": "https://codepen.io/alvaromontoro/pen/GRYzepV",
+    "artist": "Caspar David Friedrich",
     "year": "1818",
-    "image": "",
+    "image": "assets/imgs/quadres/caminant-boira.jpg",
+    "aspectRatio": "960/1229",
     "shortDescription": "Un home dret sobre un penya-segat contempla un oceà de boira que amaga les muntanyes.",
     "description": "Al centre hi ha un home amb abric fosc, dempeus sobre una roca, mirant un paisatge cobert de boira i cims llunyans. S'interpreta com una escena de contemplació davant la grandesa i la incertesa de la natura.",
-    "audioText": "El Caminant sobre el Mar de Boira, inspirat en Caspar David Friedrich i recreat a partir d'un codi d'Álvaro Montoro. La figura, sola davant d'un paisatge immens i cobert de boira, sembla aturada en un moment de contemplació profunda. És una imatge sobre la grandesa de la natura, però també sobre el dubte i la recerca interior.",
+    "audioText": "El Caminant sobre el Mar de Boira, de Caspar David Friedrich. La figura, sola davant d'un paisatge immens i cobert de boira, sembla aturada en un moment de contemplació profunda. És una imatge sobre la grandesa de la natura, però també sobre el dubte i la recerca interior.",
     "style": "Romanticisme",
     "interactionType": "parallax",
     "hint": "Mou el cursor per explorar la profunditat de la pintura."

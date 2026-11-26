@@ -1365,32 +1365,30 @@ const renderRemolins = (host, _artwork) => {
 };
 
 // ─── Parallax (El Caminant) ──────────────────────────────────────────────────
-const renderParallax = (host, _artwork) => {
-  // factor = max translation as a fraction of the container dimension.
-  // Constraint: factor < (scale - 1) / 2 so layer edges never show.
-  // Background (layer-7) moves least; foreground (layer-0) moves most.
+const renderParallax = (host, artwork) => {
+  const src = artwork?.image || 'assets/imgs/quadres/caminant-boira.jpg';
+
+  // Tres capes de la mateixa pintura, separades per màscares degradades:
+  // cel i muntanyes llunyanes → boira i caminant → roca del primer pla.
+  // factor = desplaçament màxim com a fracció del contenidor.
+  // Cal factor < (scale - 1) / 2 perquè mai es vegin les vores d'una capa.
+  const SCALE = 1.1;
   const LAYERS = [
-    { src: 'https://assets.codepen.io/1506195/wanderer-7.webp', factor: 0.010, scale: 1.36 },
-    { src: 'https://assets.codepen.io/1506195/wanderer-6.webp', factor: 0.014, scale: 1.325 },
-    { src: 'https://assets.codepen.io/1506195/wanderer-5.webp', factor: 0.018, scale: 1.3 },
-    { src: 'https://assets.codepen.io/1506195/wanderer-4.webp', factor: 0.022, scale: 1.25 },
-    { src: 'https://assets.codepen.io/1506195/wanderer-3.webp', factor: 0.026, scale: 1.225 },
-    { src: 'https://assets.codepen.io/1506195/wanderer-2.webp', factor: 0.030, scale: 1.2 },
-    { src: 'https://assets.codepen.io/1506195/wanderer-1.webp', factor: 0.034, scale: 1.15, opacity: 0.5, blur: '1.5px' },
-    { src: 'https://assets.codepen.io/1506195/wanderer-0.webp', factor: 0.038, scale: 1.1 },
+    { factor: 0.010, mask: null },
+    { factor: 0.024, mask: 'linear-gradient(to bottom, transparent 30%, #000 52%)' },
+    { factor: 0.042, mask: 'linear-gradient(to bottom, transparent 64%, #000 80%)' },
   ];
 
   host.classList.add('obra-render--contingut');
 
-  const layerEls = LAYERS.map(({ src, factor, scale, opacity = 1, blur }) => {
+  const layerEls = LAYERS.map(({ factor, mask }) => {
     const img = document.createElement('img');
     img.src = src; img.alt = ''; img.draggable = false;
     img.className = 'parallax__capa';
-    img.style.setProperty('--escala', scale);
-    img.style.setProperty('--opacitat', opacity);
-    if (blur) img.style.setProperty('--desenfocament', blur);
+    img.style.setProperty('--escala', SCALE);
+    if (mask) img.style.setProperty('--mascara', mask);
     host.appendChild(img);
-    return { el: img, factor, scale };
+    return { el: img, factor };
   });
 
   const cleanups = [];
@@ -1398,14 +1396,14 @@ const renderParallax = (host, _artwork) => {
     const r = host.getBoundingClientRect();
     const x = clamp((e.clientX - r.left  - r.width  / 2) / (r.width  / 2), -1, 1);
     const y = clamp((e.clientY - r.top   - r.height / 2) / (r.height / 2), -1, 1);
-    layerEls.forEach(({ el, factor, scale }) => {
+    layerEls.forEach(({ el, factor }) => {
       const dx = -x * r.width  * factor;
       const dy = -y * r.height * factor;
-      el.style.transform = `translate(${dx}px,${dy}px) scale(${scale})`;
+      el.style.transform = `translate(${dx}px,${dy}px) scale(${SCALE})`;
     });
   };
   const onLeave = () => {
-    layerEls.forEach(({ el, scale }) => { el.style.transform = ''; });
+    layerEls.forEach(({ el }) => { el.style.transform = ''; });
   };
 
   listen(host, 'mousemove', onMove, {}, cleanups);
@@ -1815,7 +1813,7 @@ const renderVaixell = (host, _artwork) => {
   const boat = document.createElement('div');
   boat.className = 'vaixell__barca';
   const boatImg = document.createElement('img');
-  boatImg.src = 'https://lisagh.github.io/ux/img/boat.png'; boatImg.alt = "Vaixell navegant sobre l'aigua"; boatImg.draggable = false;
+  boatImg.src = 'assets/imgs/quadres/vaixell-barca.png'; boatImg.alt = "Vaixell navegant sobre l'aigua"; boatImg.draggable = false;
   boatImg.className = 'vaixell__imatge';
   boat.appendChild(boatImg);
 

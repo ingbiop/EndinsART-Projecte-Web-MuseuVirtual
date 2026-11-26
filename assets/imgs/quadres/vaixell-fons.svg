@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <linearGradient id="cel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4f2ec"/>
+      <stop offset="1" stop-color="#fdfcf9"/>
+    </linearGradient>
+    <linearGradient id="aigua" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e3e5e1"/>
+      <stop offset="1" stop-color="#fbfaf7"/>
+    </linearGradient>
+    <linearGradient id="boira" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fdfcf9" stop-opacity="0"/>
+      <stop offset="0.55" stop-color="#fdfcf9" stop-opacity="0.92"/>
+      <stop offset="1" stop-color="#fdfcf9" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="muntanya-propera" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3f4542"/>
+      <stop offset="1" stop-color="#8b928e" stop-opacity="0.6"/>
+    </linearGradient>
+    <filter id="tinta" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="3"/>
+    </filter>
+    <filter id="tinta-suau" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#cel)"/>
+
+  <!-- Muntanyes llunyanes -->
+  <path d="M0 330 L70 270 L120 300 L190 215 L260 290 L330 245 L410 310 L470 255 L560 300 L640 230 L720 285 L800 250 L800 420 L0 420 Z"
+        fill="#cfd4d0" opacity="0.7" filter="url(#tinta-suau)"/>
+
+  <!-- Muntanyes del mig -->
+  <path d="M0 380 L90 320 L150 350 L250 270 L330 345 L420 300 L520 370 L610 305 L700 350 L800 315 L800 430 L0 430 Z"
+        fill="#9ba39f" opacity="0.75" filter="url(#tinta)"/>
+
+  <!-- Muntanya propera (esquerra) -->
+  <path d="M0 250 L60 215 L110 250 L170 205 L235 270 L290 340 L330 430 L0 430 Z"
+        fill="url(#muntanya-propera)" filter="url(#tinta)"/>
+
+  <!-- Boira entre les muntanyes -->
+  <rect x="0" y="330" width="800" height="110" fill="url(#boira)"/>
+
+  <!-- Aigua -->
+  <rect x="0" y="420" width="800" height="180" fill="url(#aigua)"/>
+  <g stroke="#b8bdb9" stroke-linecap="round" opacity="0.55" fill="none">
+    <path d="M40 450 H260" stroke-width="2"/>
+    <path d="M420 462 H720" stroke-width="2"/>
+    <path d="M120 490 H380" stroke-width="3"/>
+    <path d="M500 505 H780" stroke-width="2"/>
+    <path d="M20 530 H300" stroke-width="2"/>
+    <path d="M360 548 H640" stroke-width="3"/>
+  </g>
+</svg>
