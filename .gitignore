@@ -1,0 +1,9 @@
+# Cachés regenerables (es creen soles en obrir la Sala 3)
+data/img-cache/
+data/artic-cache-pool-*.json
+
+# Fitxers temporals de Word / sistema
+~$*
+Thumbs.db
+.DS_Store
+__pycache__/

@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EndinsART — Presentació</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:wght@400;600;700&family=Bricolage+Grotesque:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0c0b09;
+      --bg-alt:      #120d0a;
+      --surface:     rgba(26, 18, 9, 0.85);
+      --text:        #f0ece8;
+      --text-mid:    rgba(240, 236, 232, 0.72);
+      --text-mut:    rgba(240, 236, 232, 0.45);
+      --border:      rgba(240, 236, 232, 0.10);
+      --gold:        #c9a96e;
+      --gold-dim:    rgba(201, 169, 110, 0.18);
+      --gold-line:   rgba(200, 160, 80, 0.38);
+      --ok:          #4caf82;
+      --heading:     'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+      --body:        'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+      --serif:       'Cormorant Garamond', Georgia, serif;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+    }
+
+    /* ── Deck ── */
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 3rem 4rem;
+      opacity: 0;
+      transform: translateX(60px);
+      pointer-events: none;
+      transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.55s cubic-bezier(0.16,1,0.3,1);
+    }
+    .slide.activa {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+    .slide.sortint {
+      opacity: 0;
+      transform: translateX(-60px);
+    }
+
+    /* ── Nav ── */
+    .nav {
+      position: fixed;
+      bottom: 2.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      z-index: 100;
+    }
+
+    .nav__btn {
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      border: 1px solid var(--gold-line);
+      background: transparent;
+      color: var(--gold);
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: background 0.2s, border-color 0.2s;
+      font-family: inherit;
+    }
+    .nav__btn:hover { background: var(--gold-dim); border-color: var(--gold); }
+    .nav__btn:disabled { opacity: 0.25; cursor: default; }
+
+    .nav__dots {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .nav__dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--text-mut);
+      transition: background 0.3s, transform 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+    .nav__dot.actiu {
+      background: var(--gold);
+      transform: scale(1.4);
+    }
+
+    .nav__num {
+      font-family: var(--serif);
+      font-size: 0.8rem;
+      color: var(--text-mut);
+      letter-spacing: 0.12em;
+      min-width: 3.5rem;
+      text-align: center;
+    }
+
+    /* ── Slide number badge ── */
+    .slide-badge {
+      position: fixed;
+      top: 1.8rem;
+      right: 2.5rem;
+      font-family: var(--serif);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      opacity: 0.7;
+    }
+
+    /* ── Keyboard hint ── */
+    .keyboard-hint {
+      position: fixed;
+      top: 1.8rem;
+      left: 2.5rem;
+      font-size: 0.7rem;
+      color: var(--text-mut);
+      letter-spacing: 0.08em;
+    }
+    .keyboard-hint kbd {
+      font-family: inherit;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 0.1em 0.35em;
+      font-size: 0.85em;
+    }
+
+    /* ── Line separator ── */
+    .sep {
+      width: 3rem;
+      height: 1px;
+      background: var(--gold-line);
+      margin: 1rem auto;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SLIDE 1 — EL PROJECTE
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .s1-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      width: 100%;
+      max-width: 1100px;
+      align-items: center;
+    }
+
+    .s1-left {}
+
+    .s1-label {
+      font-family: var(--serif);
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1.1rem;
+    }
+
+    .s1-title {
+      font-family: var(--heading);
+      font-size: clamp(2.6rem, 4.5vw, 3.8rem);
+      font-weight: 400;
+      line-height: 1.05;
+      margin-bottom: 0.4rem;
+    }
+    .s1-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .s1-sub {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      color: var(--text-mid);
+      font-style: italic;
+      margin-bottom: 1.8rem;
+      line-height: 1.5;
+    }
+
+    .s1-desc {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.75;
+      max-width: 38ch;
+    }
+
+    .s1-right {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .feat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--gold-line);
+      border-radius: 8px;
+      padding: 0.9rem 1.1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+    }
+
+    .feat-card__icon {
+      font-size: 1.1rem;
+      line-height: 1;
+      margin-top: 0.05rem;
+      flex-shrink: 0;
+      opacity: 0.85;
+    }
+
+    .feat-card__text {}
+    .feat-card__title {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--gold);
+      margin-bottom: 0.2rem;
+      letter-spacing: 0.04em;
+    }
+    .feat-card__body {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.55;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SLIDE 2 — TECNOLOGIES
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .s2-inner {
+      width: 100%;
+      max-width: 1060px;
+    }
+
+    .s2-header {
+      text-align: center;
+      margin-bottom: 2.4rem;
+    }
+
+    .s2-label {
+      font-family: var(--serif);
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+
+    .s2-title {
+      font-family: var(--heading);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 400;
+    }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.1rem;
+    }
+
+    .tech-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem 1.2rem;
+    }
+
+    .tech-block__cat {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.7rem;
+      font-weight: 500;
+    }
+
+    .tech-block__list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.42rem;
+    }
+
+    .tech-item {
+      display: flex;
+      align-items: baseline;
+      gap: 0.55rem;
+      font-size: 0.8rem;
+      color: var(--text-mid);
+    }
+    .tech-item::before {
+      content: '';
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--gold-line);
+      flex-shrink: 0;
+      margin-top: 0.3rem;
+      align-self: flex-start;
+    }
+    .tech-item strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .tech-nota {
+      margin-top: 1.5rem;
+      text-align: center;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 0.82rem;
+      color: var(--text-mut);
+      letter-spacing: 0.04em;
+    }
+    .tech-nota span {
+      color: var(--gold);
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SLIDE 3 — COM FUNCIONA
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .s3-inner {
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .s3-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .s3-label {
+      font-family: var(--serif);
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+
+    .s3-title {
+      font-family: var(--heading);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 400;
+    }
+
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.9rem;
+    }
+
+    .feat-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+    }
+
+    .feat-item__head {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .feat-item__icon {
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    .feat-item__name {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+
+    .feat-item__pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 0.65rem;
+    }
+
+    .pill {
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      padding: 0.18em 0.55em;
+      border-radius: 999px;
+      border: 1px solid var(--gold-line);
+      color: var(--gold);
+      background: var(--gold-dim);
+    }
+
+    .feat-item__desc {
+      font-size: 0.76rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<p class="keyboard-hint"><kbd>←</kbd> <kbd>→</kbd> per navegar</p>
+<p class="slide-badge" id="badge">01 / 03</p>
+
+<div class="deck" id="deck">
+
+  <!-- ══════════════════════════════════════
+       SLIDE 1 — EL PROJECTE
+  ══════════════════════════════════════ -->
+  <section class="slide activa" data-slide="0" aria-label="Slide 1: El projecte">
+    <div class="s1-inner">
+
+      <div class="s1-left">
+        <p class="s1-label">Projecte final de curs</p>
+        <h1 class="s1-title">Endins<em>ART</em></h1>
+        <p class="s1-sub">Museu virtual interactiu</p>
+        <div class="sep"></div>
+        <p class="s1-desc">
+          Un museu digital amb tres sales d'exposició, un plànol interactiu,
+          un llibre de visites i més de 25 obres d'art interactives basades
+          en Canvas 2D. Tot construït sense cap framework ni bundler —
+          JavaScript vainilla pur.
+        </p>
+      </div>
+
+      <div class="s1-right">
+        <div class="feat-card">
+          <span class="feat-card__icon">🎨</span>
+          <div class="feat-card__text">
+            <p class="feat-card__title">25+ obres Canvas interactives</p>
+            <p class="feat-card__body">Cada quadre té el seu propi renderer amb animació, events de ratolí/tàctil i cleanup automàtic de memòria.</p>
+          </div>
+        </div>
+        <div class="feat-card">
+          <span class="feat-card__icon">♿</span>
+          <div class="feat-card__text">
+            <p class="feat-card__title">Accessibilitat completa</p>
+            <p class="feat-card__body">ARIA labels, rols semàntics, focus trap als modals, aria-live per actualitzacions dinàmiques i audioguia per Web Speech API.</p>
+          </div>
+        </div>
+        <div class="feat-card">
+          <span class="feat-card__icon">🏛️</span>
+          <div class="feat-card__text">
+            <p class="feat-card__title">Art Institute of Chicago API</p>
+            <p class="feat-card__body">La Sala 3 carrega obres reals del museu. Les dades es guarden en JSON local com a fallback si l'API no respon.</p>
+          </div>
+        </div>
+        <div class="feat-card">
+          <span class="feat-card__icon">🔊</span>
+          <div class="feat-card__text">
+            <p class="feat-card__title">Audioguia integrada</p>
+            <p class="feat-card__body">Web Speech API llegeix en veu alta les descripcions de cada obra. Control de pausa i reproducció persistent entre pàgines.</p>
+          </div>
+        </div>
+        <div class="feat-card">
+          <span class="feat-card__icon">🌍</span>
+          <div class="feat-card__text">
+            <p class="feat-card__title">Interfície íntegrament en català</p>
+            <p class="feat-card__body">Tot el contingut, etiquetes ARIA, validacions i missatges d'error estan en català (lang="ca").</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 2 — TECNOLOGIES I EINES
+  ══════════════════════════════════════ -->
+  <section class="slide" data-slide="1" aria-label="Slide 2: Tecnologies i eines">
+    <div class="s2-inner">
+
+      <div class="s2-header">
+        <p class="s2-label">Stack tècnic</p>
+        <h2 class="s2-title">Tecnologies i eines</h2>
+      </div>
+
+      <div class="tech-grid">
+
+        <div class="tech-block">
+          <p class="tech-block__cat">Backend</p>
+          <ul class="tech-block__list">
+            <li class="tech-item"><strong>PHP 7.4+</strong> — lògica del servidor</li>
+            <li class="tech-item"><strong>PDO + MySQL</strong> — base de dades amb sentències preparades</li>
+            <li class="tech-item"><strong>Endpoints API propis</strong> — save-review, get-reviews, get-artic-api, auth-visites</li>
+            <li class="tech-item"><strong>Sessions PHP</strong> — autenticació d'administrador al llibre de visites</li>
+          </ul>
+        </div>
+
+        <div class="tech-block">
+          <p class="tech-block__cat">Frontend</p>
+          <ul class="tech-block__list">
+            <li class="tech-item"><strong>JavaScript ES6 Modules</strong> — arquitectura modular sense bundler</li>
+            <li class="tech-item"><strong>HTML5 semàntic</strong> — etiquetes natives amb ARIA</li>
+            <li class="tech-item"><strong>CSS3</strong> — custom properties, grid, keyframes (2700+ línies)</li>
+            <li class="tech-item"><strong>Canvas 2D API</strong> — 25+ renderers interactius</li>
+            <li class="tech-item"><strong>Web Speech API</strong> — audioguia text a veu</li>
+            <li class="tech-item"><strong>ResizeObserver</strong> — canvas responsiu amb devicePixelRatio</li>
+          </ul>
+        </div>
+
+        <div class="tech-block">
+          <p class="tech-block__cat">Emmagatzematge navegador</p>
+          <ul class="tech-block__list">
+            <li class="tech-item"><strong>localStorage</strong> — sales visitades (persistent)</li>
+            <li class="tech-item"><strong>sessionStorage</strong> — posició de reproducció musical</li>
+          </ul>
+        </div>
+
+        <div class="tech-block">
+          <p class="tech-block__cat">API externa</p>
+          <ul class="tech-block__list">
+            <li class="tech-item"><strong>Art Institute of Chicago</strong> — api.artic.edu/api/v1</li>
+            <li class="tech-item">Imatges via <strong>IIIF</strong> (International Image Interoperability Framework)</li>
+            <li class="tech-item">Caché local en JSON per fallback offline</li>
+          </ul>
+        </div>
+
+        <div class="tech-block">
+          <p class="tech-block__cat">Fonts i recursos externs</p>
+          <ul class="tech-block__list">
+            <li class="tech-item"><strong>Google Fonts</strong> — Playfair Display, Cormorant Garamond, Bricolage Grotesque</li>
+            <li class="tech-item"><strong>Material Symbols Outlined</strong> — icones a les pàgines d'exposició</li>
+            <li class="tech-item">Audio <strong>.mp3</strong> propi per a la música de fons</li>
+          </ul>
+        </div>
+
+        <div class="tech-block">
+          <p class="tech-block__cat">Entorn de desenvolupament</p>
+          <ul class="tech-block__list">
+            <li class="tech-item"><strong>XAMPP</strong> — servidor local Apache + MySQL</li>
+            <li class="tech-item"><strong>Sense npm, sense bundler</strong> — mòduls natius del navegador</li>
+            <li class="tech-item"><strong>Sense React / Vue / Angular</strong> — DOM vanilla pur</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <p class="tech-nota">Tot construït amb la <span>plataforma web nativa</span> — sense cap dependència externa de JavaScript.</p>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 3 — COM FUNCIONA CADA ASPECTE
+  ══════════════════════════════════════ -->
+  <section class="slide" data-slide="2" aria-label="Slide 3: Com funciona cada aspecte">
+    <div class="s3-inner">
+
+      <div class="s3-header">
+        <p class="s3-label">Implementació</p>
+        <h2 class="s3-title">Com funciona cada aspecte</h2>
+      </div>
+
+      <div class="feat-grid">
+
+        <div class="feat-item">
+          <div class="feat-item__head">
+            <span class="feat-item__icon">🖼️</span>
+            <span class="feat-item__name">Fons de la pàgina d'inici</span>
+          </div>
+          <div class="feat-item__pills">
+            <span class="pill">Art Institute API</span>
+            <span class="pill">CSS Grid 7 col.</span>
+            <span class="pill">CSS Keyframes</span>
+            <span class="pill">rAF Parallax</span>
+          </div>
+          <p class="feat-item__desc">
+            Gradient vermell fosc de fons. L'API retorna IDs d'imatge; <code>home.js</code> construeix 7 columnes CSS Grid, cada una amb les imatges duplicades. Les columnes parells pugen i les senars baixen en scroll infinit (34 s, linear). El pannell hero s'inclina seguint el ratolí via <code>requestAnimationFrame</code>.
+          </p>
+        </div>
+
+        <div class="feat-item">
+          <div class="feat-item__head">
+            <span class="feat-item__icon">🎫</span>
+            <span class="feat-item__name">Animació del tiquet</span>
+          </div>
+          <div class="feat-item__pills">
+            <span class="pill">5 fases setTimeout</span>
+            <span class="pill">CSS Keyframes</span>
+            <span class="pill">classList</span>
+          </div>
+          <p class="feat-item__desc">
+            En fer clic al CTA: (1) overlay apareix, (2) tiquet llisca de dalt, (3) sacseig (±4px + rotate), (4) esquinçat: la part superior vola cap amunt-esquerra i l'inferior cap avall-dreta, (5) navegació a <code>mapa.php</code>. El tall es fa amb dues <code>&lt;div&gt;</code> separades per una línia perforada CSS.
+          </p>
+        </div>
+
+        <div class="feat-item">
+          <div class="feat-item__head">
+            <span class="feat-item__icon">🗺️</span>
+            <span class="feat-item__name">Mapa interactiu</span>
+          </div>
+          <div class="feat-item__pills">
+            <span class="pill">CSS Grid pur</span>
+            <span class="pill">localStorage</span>
+            <span class="pill">data-room</span>
+          </div>
+          <p class="feat-item__desc">
+            Sense cap llibreria de mapes. El plànol és un CSS Grid 4×2 amb arcs de portes fets amb <code>border-radius</code>. <code>mapa.js</code> llegeix el <code>localStorage</code> per marcar les sales visitades amb la classe <code>is-visitada</code>. Un comptador mostra el progrés de la visita.
+          </p>
+        </div>
+
+        <div class="feat-item">
+          <div class="feat-item__head">
+            <span class="feat-item__icon">🔍</span>
+            <span class="feat-item__name">Cercador al mapa</span>
+          </div>
+          <div class="feat-item__pills">
+            <span class="pill">Promise.allSettled</span>
+            <span class="pill">Filtre in-memory</span>
+            <span class="pill">ARIA listbox</span>
+          </div>
+          <p class="feat-item__desc">
+            En carregar la pàgina, <code>mapa.js</code> fa un fetch paral·lel de les 3 fonts de dades (expo1.json, expo2.json, API). Construeix un índex en memòria de títol + artista + sala. A cada keystroke filtra (màx. 8 resultats) i renderitza un dropdown <code>role="listbox"</code> amb ARIA complet. Cada resultat és un deeplink directe a l'obra.
+          </p>
+        </div>
+
+        <div class="feat-item">
+          <div class="feat-item__head">
+            <span class="feat-item__icon">🖱️</span>
+            <span class="feat-item__name">Obres Canvas interactives</span>
+          </div>
+          <div class="feat-item__pills">
+            <span class="pill">Canvas 2D</span>
+            <span class="pill">ResizeObserver</span>
+            <span class="pill">Pointer Events</span>
+            <span class="pill">25+ renderers</span>
+          </div>
+          <p class="feat-item__desc">
+            Cada renderer rep un element host, crea un <code>&lt;canvas&gt;</code> via <code>createCanvasSurface()</code> (que gestiona DPR i ResizeObserver), afegeix listeners i llança un loop <code>rAF</code>. Retorna una funció de cleanup. Interaccions: arrossegar, pintar, revelar, estirar, sacseja, zoom, puzzle, metaballs, topografia, engranatges i més.
+          </p>
+        </div>
+
+        <div class="feat-item">
+          <div class="feat-item__head">
+            <span class="feat-item__icon">📝</span>
+            <span class="feat-item__name">Formulari i ressenyes</span>
+          </div>
+          <div class="feat-item__pills">
+            <span class="pill">Validació doble</span>
+            <span class="pill">PDO prepared</span>
+            <span class="pill">aria-live</span>
+            <span class="pill">Stars CSS</span>
+          </div>
+          <p class="feat-item__desc">
+            Nom, valoració (radio 1–5 estrelles, CSS pur) i comentari. <code>validation.js</code> valida al client; <code>save-review.php</code> torna a validar al servidor i insereix amb PDO + placeholders. La llista es refresca amb <code>get-reviews.php</code>. Les estrelles i les dates es renderitzen a <code>reviews.js</code> amb HTML escapat i format <code>ca-ES</code>.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div><!-- /deck -->
+
+<!-- Nav -->
+<nav class="nav" aria-label="Navegació de slides">
+  <button class="nav__btn" id="prev" aria-label="Slide anterior" disabled>&#8592;</button>
+  <div class="nav__dots" role="tablist" aria-label="Slides">
+    <button class="nav__dot actiu" role="tab" aria-selected="true"  aria-label="Slide 1" data-target="0"></button>
+    <button class="nav__dot"       role="tab" aria-selected="false" aria-label="Slide 2" data-target="1"></button>
+    <button class="nav__dot"       role="tab" aria-selected="false" aria-label="Slide 3" data-target="2"></button>
+  </div>
+  <button class="nav__btn" id="next" aria-label="Slide següent">&#8594;</button>
+</nav>
+
+<script>
+  const slides  = Array.from(document.querySelectorAll('.slide'));
+  const dots    = Array.from(document.querySelectorAll('.nav__dot'));
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  const badge   = document.getElementById('badge');
+  let current   = 0;
+
+  const goTo = (idx) => {
+    if (idx < 0 || idx >= slides.length || idx === current) return;
+
+    slides[current].classList.add('sortint');
+    slides[current].classList.remove('activa');
+    dots[current].classList.remove('actiu');
+    dots[current].setAttribute('aria-selected', 'false');
+
+    setTimeout(() => slides[current - (idx > current ? 0 : 0)].classList.remove('sortint'), 600);
+
+    current = idx;
+
+    slides[current].classList.remove('sortint');
+    slides[current].classList.add('activa');
+    dots[current].classList.add('actiu');
+    dots[current].setAttribute('aria-selected', 'true');
+
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === slides.length - 1;
+    badge.textContent = `0${current + 1} / 0${slides.length}`;
+  };
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+  dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.target)));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown')  goTo(current + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')    goTo(current - 1);
+  });
+</script>
+</body>
+</html>
