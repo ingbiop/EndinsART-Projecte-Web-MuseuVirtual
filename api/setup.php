@@ -3,11 +3,12 @@
 // Es pot executar tantes vegades com calgui: només crea allò que no existeix.
 
 require_once __DIR__ . '/../includes/status-page.php';
+require_once __DIR__ . '/../includes/config.php';
 
-$host  = 'localhost';
-$user  = 'root';
-$pass  = '';
-$db    = 'endinsart_visites';
+$host = DB_HOST;
+$user = DB_USER;
+$pass = DB_PASS;
+$db   = DB_NAME;
 
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,

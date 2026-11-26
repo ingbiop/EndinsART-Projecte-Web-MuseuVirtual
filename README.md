@@ -9,6 +9,8 @@ Projecte final del Curs de Confecció i Publicació de Pàgines Web 2025–2026 
 
 **EndinsART** és un museu virtual construït sense frameworks, amb navegació entre sales, obres interactives, audioguies en català, mapa de visita i llibre de ressenyes.
 
+Repositori: <https://github.com/ingbiop/EndinsART>
+
 ---
 
 ## En xifres
@@ -21,7 +23,7 @@ Projecte final del Curs de Confecció i Publicació de Pàgines Web 2025–2026 
 | Sala 2 | 8 obres |
 | Sala 3 | 8 obres per visita (API) |
 | Pools API | 3 (A, B, C) · 47 obres disponibles |
-| Mòduls JS | 7 a `js/modules/` |
+| Mòduls JS | 8 a `js/modules/` |
 | Caché API | 24 h per pool |
 | Stack | HTML · CSS · JS · PHP · MySQL |
 
@@ -51,7 +53,7 @@ about.php  →  pàgina tècnica del projecte
 | Composició Nº II | selector de color |
 | Nena amb Globus | efecte shred |
 | Nit i Dia | comparador dia/nit |
-| El Caminant sobre el Mar de Boira | parallax multicapa |
+| El Caminant sobre el Mar de Boira | parallax de 3 capes |
 | Esferes de Vida | metaballs |
 | Retrat de Mae West | zoom i pan |
 | El Fill de l'Home | arrossegable |
@@ -61,13 +63,24 @@ about.php  →  pàgina tècnica del projecte
 
 ### Sala 2 — Objectes Animats · `data/expo2.json`
 
-Obres: Construcció Perpètua · Pintura de Pinzell Xinès · Gotes de Pintura · Fine Art Horse Animation · Corba de Bézier: Soroll de Perlin · Planetary Gears · Remolins · Geografia d'un Buit
+| Obra | Interacció |
+|---|---|
+| Construcció Perpètua | cub de Rubik animat en CSS |
+| Horitzó de tinta | vaixells sobre l'aigua (pintura xinesa) |
+| Pulsacions cromàtiques | gotes de pintura sobre canvas |
+| La caiguda del genet | cavall i crani animats amb CSS |
+| Ones paramètriques | corba de Bézier amb soroll de Perlin |
+| Hipnosi | engranatges planetaris en SVG |
+| Remolins | partícules sobre un camp de fluxos |
+| Topografia del Buit | anells topogràfics amb filtre SVG |
 
 Tècniques: CSS pur · Canvas 2D · SVG · animació procedural · renderitzat generatiu
 
 ### Sala 3 — Exposició Temporal · `api/get-artic-api.php`
 
 Cada visita selecciona aleatòriament una pool. El backend normalitza els camps al català i en retorna 8 obres. La caché de 24 h per pool redueix les peticions a l'API externa.
+
+Les imatges passen pel proxy local `api/artic-image.php`: el servidor d'imatges de l'Art Institute of Chicago respon 403 (Cloudflare) a les peticions anònimes del navegador, de manera que PHP les descarrega identificant-se amb la capçalera `AIC-User-Agent` i les desa a `data/img-cache/`.
 
 | Pool | Temàtica |
 |---|---|
@@ -87,6 +100,7 @@ Cada visita selecciona aleatòriament una pool. El backend normalitza els camps 
 - **Modals accessibles** amb focus trap i tancament per `Escape`
 - **Responsive mobile-first** a totes les pàgines
 - **Formulari de ressenyes** amb validació al client i al servidor
+- **Cap estil ni script inline**: tot l'estil és a `css/style.css`. Només queden com a propietats de JS els valors calculats en temps real (posició en arrossegar, mides mesurades, transformacions per frame)
 
 ---
 
@@ -101,7 +115,7 @@ Cada visita selecciona aleatòriament una pool. El backend normalitza els camps 
 | Web Speech API | Síntesi de veu de les audioguies |
 | PHP 8 | Plantilles, endpoints JSON, normalització i caché |
 | PDO + MySQL | Persistència del llibre de visites |
-| Art Institute of Chicago API | Obres públiques per a la sala temporal |
+| Art Institute of Chicago API | Obres públiques per a la sala temporal (amb proxy d'imatges local) |
 | MyMemory API | Suport a la normalització de metadades al català |
 
 ---
@@ -116,7 +130,7 @@ Cada visita selecciona aleatòriament una pool. El backend normalitza els camps 
 | `js/expo.js` | Motor compartit de les tres sales |
 | `js/visites.js` | Llibre de ressenyes |
 
-**Mòduls a `js/modules/`:** `api.js` · `artwork-renderers.js` · `audioguia.js` · `dom.js` · `modal.js` · `reviews.js` · `storage.js` · `validation.js`
+**Mòduls a `js/modules/`:** `api.js` · `artwork-renderers.js` · `audioguia.js` · `dom.js` (escapat d'HTML compartit) · `modal.js` · `reviews.js` · `storage.js` · `validation.js`
 
 `artwork-renderers.js` concentra tots els renderers i les interaccions de les obres locals.
 
@@ -135,15 +149,21 @@ EndinsART/
 │   └── setup.php               → crea la BD i les taules (idempotent)
 ├── assets/
 │   ├── imgs/
+│   │   ├── logos/              → logos de la pàgina «Sobre el projecte»
+│   │   ├── quadres/            → imatges de les obres locals
+│   │   └── ui/                 → icones de la interfície
 │   └── music/
 ├── css/
 │   └── style.css
 ├── data/
 │   ├── expo1.json
 │   ├── expo2.json
-│   └── artic-cache-pool-{a|b|c}.json
+│   ├── artic-cache-pool-{a|b|c}.json   → caché (es regenera, no es versiona)
+│   └── img-cache/                      → imatges descarregades (no es versiona)
+├── deliverables/               → memòria i proposta final (DOCX, PDF, MD)
 ├── includes/
-│   ├── assets.php
+│   ├── assets.php              → asset_url(): versionat de CSS/JS per data de modificació
+│   ├── config.php              → credencials de la BD (únic lloc)
 │   ├── db.php
 │   ├── expo-template.php
 │   ├── footer.php
@@ -159,17 +179,21 @@ EndinsART/
 │       ├── api.js
 │       ├── artwork-renderers.js
 │       ├── audioguia.js
+│       ├── dom.js
 │       ├── modal.js
 │       ├── reviews.js
 │       ├── storage.js
 │       └── validation.js
+├── scripts/ · tools/           → scripts Python que generen la taula i els documents
 ├── about.php
+├── endinsart_visites.sql       → exportació de la BD (alternativa a setup.php)
 ├── expo1.php
 ├── expo2.php
 ├── expo3.php
 ├── index.php
 ├── llibre-visites.php
 ├── mapa.php
+├── slides.html · taula-emmagatzematge-endinsart.{html,png}
 └── README.md
 ```
 
@@ -180,12 +204,15 @@ EndinsART/
 **Requisits:** XAMPP (o equivalent) amb Apache, PHP 8 i MySQL.
 
 ```text
-1. Col·loca la carpeta a:  C:\xampp\htdocs\IngridPalomino_EndinsART\
+1. Clona el repositori dins de C:\xampp\htdocs\ amb el nom IngridPalomino_EndinsART:
+   git clone https://github.com/ingbiop/EndinsART.git IngridPalomino_EndinsART
 2. Engega Apache i MySQL des del panell XAMPP
-3. Si cal, actualitza les credencials a includes/db.php i api/setup.php
+3. Si cal, actualitza les credencials a includes/config.php
 4. Executa:  http://localhost/IngridPalomino_EndinsART/api/setup.php
 5. Obre:     http://localhost/IngridPalomino_EndinsART/
 ```
+
+La carpeta ha de dir-se `IngridPalomino_EndinsART` perquè les URL d'aquest README siguin vàlides. Les rutes del codi són relatives, així que funciona amb qualsevol nom.
 
 **Rutes útils en local:**
 
@@ -201,7 +228,7 @@ EndinsART/
 
 ## Base de dades
 
-`setup.php` és idempotent: crea la base de dades `endinsart_visites` i la taula `reviews` si no existeixen.
+`setup.php` és idempotent: crea la base de dades `endinsart_visites` i la taula `reviews` si no existeixen. Alternativament, es pot importar `endinsart_visites.sql` des de phpMyAdmin.
 
 ```sql
 CREATE TABLE reviews (
@@ -221,6 +248,18 @@ CREATE TABLE reviews (
 - La Sala 3 depèn de serveis externs; la caché local amorteix errors de xarxa i redueix peticions a l'API.
 - `localStorage` conserva el progrés de sales fins que l'usuari esborra les dades del navegador.
 - L'accent de les audioguies depèn de les veus del sistema; s'usa veu espanyola com a fallback si no n'hi ha de catalana.
+- Si les imatges de la Sala 3 no es veuen, comprova que Apache pot sortir a Internet (el proxy `api/artic-image.php` les descarrega la primera vegada) i que `data/` té permisos d'escriptura. Esborrar `data/img-cache/` i les caché `artic-cache-pool-*.json` força una nova descàrrega.
+- Les caché de `data/` es creen soles i no es versionen (vegeu `.gitignore`).
+
+---
+
+## Crèdits i imatges
+
+- **Sala 3**: obres de domini públic de l'[Art Institute of Chicago](https://www.artic.edu/open-access/public-api), accessibles amb la seva API oberta.
+- **El Caminant sobre el Mar de Boira** (Caspar David Friedrich, 1818): domini públic, reproducció de Wikimedia Commons.
+- **Horitzó de tinta**: composició inspirada en la peça de Lisha Chen; la barca prové de l'arxiu de la peça original (recuperada d'Internet Archive) i el fons de muntanyes és un SVG propi.
+- **Sala 2 i part de la Sala 1**: peces generatives recreades a partir de CodePens dels seus autors, que s'enllacen des de la placa de cada obra.
+- **Música**: vegeu `assets/music/source-music.md`.
 
 ---
 
